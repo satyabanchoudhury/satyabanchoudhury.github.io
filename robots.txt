@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://its-satyaban.github.io/sitemap.xml
+Sitemap: https://satyabanchoudhury.github.io/sitemap.xml
