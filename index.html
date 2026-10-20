@@ -20,6 +20,7 @@
     "name":"Satyaban Choudhury",
     "jobTitle":"Senior Network & Infrastructure Administrator",
     "url":"https://satyabanchoudhury.github.io/",
+    "image":"https://satyabanchoudhury.github.io/assets/satyaban-profile.webp",
     "sameAs":["https://linkedin.com/in/satyaban-choudhury"],
     "email":"mailto:chou.satyaban123@gmail.com",
     "telephone":"+91 77353 73892",
@@ -154,21 +155,90 @@
     .quick-stat span { display:block; margin-top:5px; color:var(--subtle); font-family:var(--mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase; }
 
     .hero-visual { position:relative; }
-    .terminal-card { background:linear-gradient(145deg,#0b1220,#101d2b); border:1px solid #233750; border-radius:24px; color:#dce8f6; padding:20px; box-shadow:0 28px 70px rgba(3,10,20,.25); overflow:hidden; }
-    .terminal-top { display:flex; align-items:center; gap:7px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,.09); }
-    .terminal-top i { width:9px; height:9px; border-radius:50%; background:#42556d; }
-    .terminal-top span { margin-left:auto; color:#7f92a8; font:10px var(--mono); letter-spacing:.08em; text-transform:uppercase; }
-    .terminal-body { padding:22px 4px 8px; font:12px/1.8 var(--mono); }
-    .terminal-line { display:flex; gap:10px; }
-    .terminal-line b { color:#76a8ff; font-weight:500; }
-    .terminal-line em { color:#72d5b2; font-style:normal; }
-    .terminal-line small { color:#7f92a8; }
-    .terminal-block { margin:14px 0; padding:13px 14px; border:1px solid rgba(255,255,255,.08); border-radius:13px; background:rgba(255,255,255,.025); }
-    .terminal-block strong { display:block; color:#fff; font:600 13px var(--sans); }
-    .terminal-block span { color:#93a6bb; font-size:11px; }
-    .availability { margin-top:16px; display:flex; justify-content:space-between; align-items:center; gap:14px; padding:13px 14px; border:1px solid rgba(114,213,178,.18); background:rgba(114,213,178,.06); border-radius:12px; }
-    .availability span { color:#a7b7c8; font-size:11px; }
-    .availability b { color:#72d5b2; font:600 11px var(--mono); text-transform:uppercase; letter-spacing:.07em; }
+    .profile-photo-card {
+      position:relative;
+      width:100%;
+      max-width:440px;
+      margin-left:auto;
+      aspect-ratio:3 / 4;
+      overflow:hidden;
+      isolation:isolate;
+      border:1px solid var(--line-strong);
+      border-radius:24px;
+      background:var(--surface-2);
+      box-shadow:var(--shadow-lg);
+    }
+    .profile-photo {
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center 38%;
+    }
+    .profile-photo-card::after {
+      content:"";
+      position:absolute;
+      inset:35% 0 0;
+      z-index:0;
+      pointer-events:none;
+      background:linear-gradient(180deg,transparent 12%,rgba(5,13,25,.12) 42%,rgba(5,13,25,.82) 100%);
+    }
+    .profile-photo-top {
+      position:absolute;
+      top:16px;
+      left:16px;
+      z-index:1;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      max-width:calc(100% - 32px);
+      padding:9px 12px;
+      color:#f8fbff;
+      background:rgba(8,17,29,.72);
+      border:1px solid rgba(255,255,255,.2);
+      border-radius:999px;
+      backdrop-filter:blur(10px);
+      font:600 10px var(--mono);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .profile-photo-top::before {
+      content:"";
+      width:7px;
+      height:7px;
+      flex:none;
+      border-radius:50%;
+      background:#4adea8;
+      box-shadow:0 0 0 4px rgba(74,222,168,.14);
+    }
+    .profile-photo-caption {
+      position:absolute;
+      left:22px;
+      right:22px;
+      bottom:22px;
+      z-index:1;
+      color:#fff;
+    }
+    .profile-photo-caption strong {
+      display:block;
+      font:650 clamp(19px,2.1vw,25px)/1.2 var(--sans);
+      letter-spacing:-.02em;
+    }
+    .profile-photo-caption span {
+      display:block;
+      margin-top:7px;
+      color:#d9e7f8;
+      font:11px/1.6 var(--mono);
+      letter-spacing:.03em;
+    }
+    @media (max-width:1000px) {
+      .profile-photo-card { margin-left:0; max-width:480px; }
+    }
+    @media (max-width:760px) {
+      .profile-photo-card { max-width:420px; border-radius:20px; }
+      .profile-photo-top { top:12px; left:12px; padding:8px 10px; font-size:9px; }
+      .profile-photo-caption { left:17px; right:17px; bottom:17px; }
+    }
 
     section { scroll-margin-top:94px; }
     .section { padding:76px 0; border-top:1px solid var(--line); }
@@ -356,15 +426,20 @@
           </div>
         </div>
 
-        <div class="hero-visual reveal" aria-label="Professional profile overview">
-          <div class="terminal-card">
-            <div class="terminal-top"><i></i><i></i><i></i><span>infrastructure.profile</span></div>
-            <div class="terminal-body">
-              <div class="terminal-line"><b>role</b><small>=</small><em>"Senior Network &amp; Infrastructure Administrator"</em></div>
-              <div class="terminal-line"><b>focus</b><small>=</small><em>"Network · Security · Endpoint · Operations"</em></div>
-              <div class="terminal-block"><strong>Primary platforms</strong><span>FortiGate · Cisco CBS350 · Aironet 1850 · Intune · Defender · Active Directory</span></div>
-              <div class="terminal-block"><strong>Operational focus</strong><span>Availability · Secure remote access · Migrations · Automation · Governance</span></div>
-              <div class="availability"><span>Based in Hyderabad · Open to senior network, infrastructure &amp; IT security roles</span><b>Available</b></div>
+        <div class="hero-visual reveal" aria-label="Profile photograph of Satyaban Choudhury">
+          <div class="profile-photo-card">
+            <img
+              class="profile-photo"
+              src="assets/satyaban-profile.webp"
+              alt="Portrait of Satyaban Choudhury"
+              width="1086"
+              height="1448"
+              fetchpriority="high"
+              decoding="async">
+            <div class="profile-photo-top">Hyderabad, India</div>
+            <div class="profile-photo-caption">
+              <strong>Satyaban Choudhury</strong>
+              <span>Network Infrastructure · Security · Endpoint Management</span>
             </div>
           </div>
         </div>
