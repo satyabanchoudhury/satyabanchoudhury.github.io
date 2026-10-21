@@ -72,6 +72,47 @@
       --shadow-lg:0 24px 75px rgba(0,0,0,.3);
     }
 
+
+    .skip-link {
+      position:fixed; left:16px; top:12px; z-index:2000;
+      transform:translateY(-160%); padding:10px 14px;
+      border-radius:10px; background:var(--ink); color:var(--bg);
+      font-weight:700; text-decoration:none; box-shadow:var(--shadow);
+    }
+    .skip-link:focus { transform:translateY(0); }
+    .hero {
+      overflow:hidden;
+      background:
+        radial-gradient(ellipse at 82% 18%, color-mix(in srgb,var(--brand) 10%,transparent), transparent 36%),
+        radial-gradient(ellipse at 12% 2%, color-mix(in srgb,var(--brand-2) 7%,transparent), transparent 30%);
+    }
+    .brand { text-decoration:none; }
+    .nav-links a { padding:10px 0; transition:color .18s ease; }
+    .nav-links a[aria-current="location"] { color:var(--brand); }
+    .profile-photo-card { transition:transform .25s ease,box-shadow .25s ease; }
+    .profile-photo-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); }
+    .quick-stat, .metric, .expertise-card, .signal-card, .diagram, .panel, .stack-table, .credentials {
+      transition:border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+    .expertise-card:hover, .signal-card:hover, .panel:hover {
+      border-color:var(--line-strong); box-shadow:var(--shadow-lg); transform:translateY(-3px);
+    }
+    .project { transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease; }
+    .project:hover { border-color:var(--line-strong); box-shadow:var(--shadow-lg); transform:translateY(-2px); }
+    .btn:focus-visible, .contact-link:focus-visible, .verify:focus-visible {
+      outline:3px solid var(--brand); outline-offset:3px;
+    }
+    .nav-resume { white-space:nowrap; }
+    @media (max-width:760px) {
+      .nav { gap:10px; }
+      .brand { font-size:13px; gap:7px; }
+      .brand-mark { flex:none; }
+      .nav-actions { margin-left:auto; }
+      .nav-resume { min-height:39px; padding:0 11px; font-size:12px; }
+      .hero { background:
+        radial-gradient(ellipse at 90% 12%, color-mix(in srgb,var(--brand) 9%,transparent), transparent 38%); }
+    }
+
     * { box-sizing:border-box; }
     html { scroll-behavior:smooth; }
     body {
@@ -373,10 +414,12 @@
       html { scroll-behavior:auto; }
       *,*::before,*::after { animation:none!important; transition:none!important; }
       .js .reveal { opacity:1; transform:none; }
+      .profile-photo-card:hover,.project:hover,.expertise-card:hover,.signal-card:hover,.panel:hover { transform:none; }
     }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#top">Skip to content</a>
   <div class="progress" id="progress" aria-hidden="true"></div>
 
   <header class="nav-shell" id="navShell">
@@ -407,7 +450,7 @@
     </div>
   </header>
 
-  <main id="top">
+  <main id="top" tabindex="-1" aria-label="Portfolio content">
     <section class="hero">
       <div class="container hero-grid">
         <div class="reveal">
@@ -906,7 +949,51 @@
         menuBtn.setAttribute('aria-expanded',String(open));
         menuBtn.setAttribute('aria-label',open?'Close navigation':'Open navigation');
       });
-      document.querySelectorAll('.nav-links a').forEach(function(link){ link.addEventListener('click',function(){ navShell.classList.remove('menu-open'); menuBtn.setAttribute('aria-expanded','false'); }); });
+      document.querySelectorAll('.nav-links a').forEach(function(link){
+        link.addEventListener('click',function(){
+          navShell.classList.remove('menu-open');
+          menuBtn.setAttribute('aria-expanded','false');
+          menuBtn.setAttribute('aria-label','Open navigation');
+        });
+      });
+
+      document.addEventListener('keydown',function(event){
+        if(event.key==='Escape' && navShell.classList.contains('menu-open')){
+          navShell.classList.remove('menu-open');
+          menuBtn.setAttribute('aria-expanded','false');
+          menuBtn.setAttribute('aria-label','Open navigation');
+          menuBtn.focus();
+        }
+      });
+
+      var sectionLinks=Array.from(document.querySelectorAll('.nav-links a'));
+      var observedSections=sectionLinks
+        .map(function(link){ return document.querySelector(link.getAttribute('href')); })
+        .filter(Boolean);
+      if('IntersectionObserver' in window){
+        var sectionObserver=new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if(entry.isIntersecting){
+              sectionLinks.forEach(function(link){
+                if(link.getAttribute('href')==='#'+entry.target.id){
+                  link.setAttribute('aria-current','location');
+                } else {
+                  link.removeAttribute('aria-current');
+                }
+              });
+            }
+          });
+        },{rootMargin:'-22% 0px -65% 0px',threshold:0});
+        observedSections.forEach(function(section){sectionObserver.observe(section);});
+      }
+
+      window.addEventListener('resize',function(){
+        if(window.innerWidth>1000){
+          navShell.classList.remove('menu-open');
+          menuBtn.setAttribute('aria-expanded','false');
+          menuBtn.setAttribute('aria-label','Open navigation');
+        }
+      });
 
       function scrollProgress(){
         var total=document.documentElement.scrollHeight-window.innerHeight;
